@@ -1,2 +1,19 @@
 image:
   file: .gitpod.dockerfile
+ports:
+  - port: 3000
+tasks:
+  - init: yarn
+    command: |
+      gp sync-done init
+      yarn --cwd theia-training watch
+  - command: |
+      gp sync-await init
+      yarn --cwd browser-app watch
+    name: Watch browser-app
+    openMode: split-right
+  - command: |
+      gp sync-await init
+      yarn --cwd browser-app start ..
+    name: Run browser-app
+    openMode: tab-after
